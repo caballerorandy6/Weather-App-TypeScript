@@ -5,8 +5,7 @@ import Error from "./Error";
 import { SearchType } from "../types";
 
 const Form = () => {
-  const { fetchWeatherData, error, weatherResult } = useWeatherDataStore();
-  console.log(weatherResult);
+  const { fetchWeatherData } = useWeatherDataStore();
 
   const {
     register,
@@ -15,15 +14,14 @@ const Form = () => {
     reset,
   } = useForm<SearchType>();
 
-  const onSubmit = (search: SearchType) => {
-    fetchWeatherData(search);
+  const onSubmit = async (search: SearchType) => {
+    await fetchWeatherData(search);
     reset();
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="field">
-        {error && <Error>{error}</Error>}
         <label htmlFor="city">City: </label>
         <input
           id="city"
@@ -51,7 +49,7 @@ const Form = () => {
           <Error>{errors?.country?.message?.toString()}</Error>
         )}
       </div>
-      <input type="submit" value="Check the weather" />
+      <button type="submit">Check the weather</button>
     </form>
   );
 };
